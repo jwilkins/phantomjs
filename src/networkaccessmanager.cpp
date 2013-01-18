@@ -100,6 +100,10 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent, const Config *config
         } else if (config->sslProtocol() == "any") {
             m_sslConfiguration.setProtocol(QSsl::AnyProtocol);
         }
+
+        if (config->sslCertStore() != "") {
+            m_sslConfiguration. XXX
+        }
     }
 
     connect(this, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), SLOT(provideAuthentication(QNetworkReply*,QAuthenticator*)));
