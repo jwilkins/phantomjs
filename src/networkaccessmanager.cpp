@@ -35,6 +35,8 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSslSocket>
+#include <QSslCertificate>
+#include <QRegExp>
 
 #include "phantom.h"
 #include "config.h"
@@ -79,6 +81,9 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent, const Config *config
 {
     setCookieJar(CookieJar::instance());
 
+    QList<QSslCertificate> caCerts = QSslCertificate::fromPath(
+        config->sslCertStore(), QSsl::Pem, QRegExp::Wildcard);
+
     if (config->diskCacheEnabled()) {
         m_networkDiskCache = new QNetworkDiskCache(this);
         m_networkDiskCache->setCacheDirectory(QDesktopServices::storageLocation(QDesktopServices::CacheLocation));
@@ -102,7 +107,7 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent, const Config *config
         }
 
         if (config->sslCertStore() != "") {
-            m_sslConfiguration. XXX
+            m_sslConfiguration.setCaCertificates(caCerts);
         }
     }
 

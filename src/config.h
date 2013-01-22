@@ -58,7 +58,7 @@ class Config: public QObject
     Q_PROPERTY(bool javascriptCanOpenWindows READ javascriptCanOpenWindows WRITE setJavascriptCanOpenWindows)
     Q_PROPERTY(bool javascriptCanCloseWindows READ javascriptCanCloseWindows WRITE setJavascriptCanCloseWindows)
     Q_PROPERTY(QString sslProtocol READ sslProtocol WRITE setSslProtocol)
-    Q_PROPERTY(QString sslCertStore READ sslCertStore WRITE setCertStore)
+    Q_PROPERTY(QString sslCertStore READ sslCertStore WRITE setSslCertStore)
     Q_PROPERTY(QString webdriver READ webdriver WRITE setWebdriver)
     Q_PROPERTY(QString seleniumGridHub READ seleniumGridHub WRITE setSeleniumGridHub)
 
