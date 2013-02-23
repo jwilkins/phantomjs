@@ -517,6 +517,13 @@ void Config::resetToDefaults()
     m_sslCertStore.clear();
     m_webdriver = QString();
     m_seleniumGridHub = QString();
+
+    QByteArray envSslCertDir = qgetenv("SSL_CERT_DIR");                        
+    if(envSslCertDir != "")                                                    
+      m_sslCertStore = envSslCertDir;
+    else
+      m_sslCertStore.clear();
+
 }
 
 void Config::setProxyAuthPass(const QString &value)
