@@ -32,6 +32,7 @@
 #include "config.h"
 
 #include <QDir>
+#include <QFileInfo>
 #include <QWebPage>
 #include <QWebFrame>
 #include <QNetworkProxy>
@@ -518,11 +519,30 @@ void Config::resetToDefaults()
     m_webdriver = QString();
     m_seleniumGridHub = QString();
 
-    QByteArray envSslCertDir = qgetenv("SSL_CERT_DIR");                        
-    if(envSslCertDir != "")                                                    
-      m_sslCertStore = envSslCertDir;
-    else
+    QByteArray envSslCertDir = qgetenv("SSL_CERT_DIR");
+    if(envSslCertDir != "") {
+      std::cout << "envSslCertDir: " << envSslCertDir.constData() << "\n";
+      QFileInfo sslPathInfo = QFileInfo(envSslCertDir);
+      if (sslPathInfo.isDir()) {
+        std::cout << "- isDir\n";
+        m_sslCertStore = envSslCertDir + "/*";
+      } else {
+        if (sslPathInfo.isFile())
+          std::cout << "- isFile\n";
+      }
+
+      std::cout << "dir is: " \
+        << sslPathInfo.dir().absolutePath().toUtf8().constData() \
+        << "\n";
+
+      std::cout << "file is: " \
+        << sslPathInfo.fileName().toUtf8().constData() \
+        << "\n";
+    } else
       m_sslCertStore.clear();
+
+
+    std::cout << "m_sslCertStore: " << m_sslCertStore.toUtf8().constData() << "\n";
 
 }
 
