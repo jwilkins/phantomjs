@@ -90,6 +90,10 @@ void Config::init(const QStringList *const args)
 {
     resetToDefaults();
 
+    QByteArray envSslCertDir = qgetenv("SSL_CERT_DIR");
+    if (envSslCertDir != "")
+        setSslCertStore(envSslCertDir);
+
     processArgs(*args);
 }
 
@@ -519,31 +523,6 @@ void Config::resetToDefaults()
     m_webdriver = QString();
     m_seleniumGridHub = QString();
 
-    QByteArray envSslCertDir = qgetenv("SSL_CERT_DIR");
-    if(envSslCertDir != "") {
-      std::cout << "envSslCertDir: " << envSslCertDir.constData() << "\n";
-      QFileInfo sslPathInfo = QFileInfo(envSslCertDir);
-      if (sslPathInfo.isDir()) {
-        std::cout << "- isDir\n";
-        m_sslCertStore = envSslCertDir + "/*";
-      } else {
-        if (sslPathInfo.isFile())
-          std::cout << "- isFile\n";
-      }
-
-      std::cout << "dir is: " \
-        << sslPathInfo.dir().absolutePath().toUtf8().constData() \
-        << "\n";
-
-      std::cout << "file is: " \
-        << sslPathInfo.fileName().toUtf8().constData() \
-        << "\n";
-    } else
-      m_sslCertStore.clear();
-
-
-    std::cout << "m_sslCertStore: " << m_sslCertStore.toUtf8().constData() << "\n";
-
 }
 
 void Config::setProxyAuthPass(const QString &value)
@@ -730,5 +709,9 @@ QString Config::sslCertStore() const
 
 void Config::setSslCertStore(const QString& sslCertStorePath)
 {
+    QFileInfo sslPathInfo = QFileInfo(sslCertStorePath);
+    if (sslPathInfo.isDir()) {
+        m_sslCertStore = sslCertStorePath + "/*";
+    }
     m_sslCertStore = sslCertStorePath;
 }
