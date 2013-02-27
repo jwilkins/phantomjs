@@ -155,8 +155,8 @@ public:
     void setSslProtocol(const QString& sslProtocolName);
     QString sslProtocol() const;
 
-    void setSslCertStore (const QString& sslCertStore);
-    QString sslCertStore () const;
+    void setSslCertStore(const QString& sslCertStore);
+    QString sslCertStore() const;
 
     void setWebdriver(const QString& webdriverConfig);
     QString webdriver() const;

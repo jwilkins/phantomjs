@@ -711,7 +711,11 @@ void Config::setSslCertStore(const QString& sslCertStorePath)
 {
     QFileInfo sslPathInfo = QFileInfo(sslCertStorePath);
     if (sslPathInfo.isDir()) {
-        m_sslCertStore = sslCertStorePath + "/*";
+        if (sslCertStorePath.endsWith('/'))
+            m_sslCertStore = sslCertStorePath + "*";
+        else
+            m_sslCertStore = sslCertStorePath + "/*";
+    } else {
+        m_sslCertStore = sslCertStorePath;
     }
-    m_sslCertStore = sslCertStorePath;
 }
